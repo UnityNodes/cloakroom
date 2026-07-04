@@ -1,10 +1,24 @@
+import { ConnectButton } from "@/components/wallet/ConnectButton";
+import { NetworkGuard } from "@/components/wallet/NetworkGuard";
+
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
-      <h1 className="text-2xl font-semibold">Cloakroom</h1>
-      <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
-        Scaffold placeholder.
-      </p>
-    </main>
+    <div className="min-h-screen">
+      <NetworkGuard />
+      <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--bg)]/85 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-3">
+            <span className="text-lg font-semibold tracking-tight">Cloakroom</span>
+            <span className="rounded-full border border-[var(--line)] px-2.5 py-0.5 text-xs text-[var(--muted)]">
+              Sepolia
+            </span>
+          </div>
+          <ConnectButton />
+        </div>
+      </header>
+      <main className="mx-auto max-w-6xl px-6 py-10">
+        <p className="text-sm text-[var(--muted)]">Registry loading comes next.</p>
+      </main>
+    </div>
   );
 }
