@@ -1,5 +1,6 @@
 import { ConnectButton } from "@/components/wallet/ConnectButton";
 import { NetworkGuard } from "@/components/wallet/NetworkGuard";
+import { Dashboard } from "@/components/Dashboard";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-10">
-        <p className="text-sm text-[var(--muted)]">Registry loading comes next.</p>
+        <Dashboard />
       </main>
     </div>
   );
