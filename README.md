@@ -10,6 +10,11 @@ any time.
 
 > Live demo: _deploy URL here_ · 3-minute video: _link here_ · X thread: _link here_
 
+**Supported networks:** Ethereum Sepolia (full feature set incl. faucet) and
+Ethereum mainnet (registry, wrap/unwrap, decryption — real assets, no faucet).
+The header switcher works before and after connecting; the registry address
+resolves per chain automatically.
+
 ## What it does
 
 | Capability | How |
@@ -35,6 +40,7 @@ Optional `.env.local` (defaults to a public Sepolia RPC):
 
 ```bash
 NEXT_PUBLIC_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+NEXT_PUBLIC_MAINNET_RPC_URL=https://ethereum-rpc.publicnode.com
 ```
 
 Other commands:
