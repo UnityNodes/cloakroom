@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useChainId } from "wagmi";
 import { useActivity } from "@/lib/activity-store";
 import { txUrl } from "@/lib/chains";
 import { formatRelativeTime } from "@/lib/format";
@@ -15,6 +16,7 @@ const KIND_ICON: Record<string, string> = {
 
 export function ActivityDrawer() {
   const { entries, devLog, clear } = useActivity();
+  const chainId = useChainId();
   const [open, setOpen] = useState(false);
   const [devMode, setDevMode] = useState(false);
 
@@ -95,7 +97,7 @@ export function ActivityDrawer() {
                         <span className="flex shrink-0 items-center gap-2">
                           {entry.txHash && (
                             <a
-                              href={txUrl(entry.txHash)}
+                              href={txUrl(entry.chainId ?? chainId, entry.txHash)}
                               target="_blank"
                               rel="noreferrer"
                               className="text-[var(--accent)] hover:underline"

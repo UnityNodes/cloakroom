@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import {
   useConfidentialBalance,
   useGrantPermit,
@@ -23,6 +23,7 @@ import { UnshieldTimeline, type UnshieldPhase } from "./UnshieldTimeline";
 
 export function UnshieldPanel({ pair }: { pair: PairView }) {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const queryClient = useQueryClient();
   const { addEntry, updateEntry } = useActivity();
 
@@ -131,6 +132,7 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
           ? `Unshield all ${pair.confidential.symbol}`
           : `Unshield ${input} ${pair.confidential.symbol}`,
       status: "pending",
+      chainId,
     });
     const callbacks = makeCallbacks(id);
     if (mode === "all") {
@@ -154,6 +156,7 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
       label: `Resume unshield ${pair.confidential.symbol}`,
       status: "pending",
       txHash: pendingForPair.request.unwrapTxHash,
+      chainId,
     });
     resumeUnshield.mutate(
       { unwrapTxHash: pendingForPair.request.unwrapTxHash, ...makeCallbacks(id) },

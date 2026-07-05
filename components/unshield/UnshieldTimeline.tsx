@@ -1,5 +1,6 @@
 "use client";
 
+import { useChainId } from "wagmi";
 import { txUrl } from "@/lib/chains";
 
 export type UnshieldPhase =
@@ -61,6 +62,7 @@ export function UnshieldTimeline({
   unwrapTx: string | null;
   finalizeTx: string | null;
 }) {
+  const chainId = useChainId();
   if (phase === "idle") return null;
 
   return (
@@ -108,7 +110,7 @@ export function UnshieldTimeline({
               <p className="mt-0.5 text-xs leading-relaxed text-[var(--muted)]">{step.hint}</p>
               {txHash && (
                 <a
-                  href={txUrl(txHash)}
+                  href={txUrl(chainId, txHash)}
                   target="_blank"
                   rel="noreferrer"
                   className="mt-1 inline-block font-mono text-[11px] text-[var(--accent)] hover:underline"

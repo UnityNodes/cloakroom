@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { isAddress, type Address } from "viem";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import { useZamaSDK } from "@zama-fhe/react-sdk";
 import { NoCiphertextError } from "@zama-fhe/sdk";
 import { humanizeError, rawErrorText, UnsupportedTokenError } from "@/lib/errors";
@@ -36,6 +36,7 @@ function loadTracked(): Address[] {
 export function DecryptAnyToken() {
   const sdk = useZamaSDK();
   const { address: account, isConnected } = useAccount();
+  const chainId = useChainId();
   const { addEntry, updateEntry } = useActivity();
   const [input, setInput] = useState("");
   const [tracked, setTracked] = useState<Address[]>([]);
@@ -69,7 +70,7 @@ export function DecryptAnyToken() {
       let balance: bigint | null = null;
       if (isConnected && account) {
         const id = `decrypt-any-${address}-${Date.now()}`;
-        addEntry({ id, kind: "decrypt", label: `Decrypt ${symbol} balance`, status: "pending" });
+        addEntry({ id, kind: "decrypt", label: `Decrypt ${symbol} balance`, status: "pending", chainId });
         try {
           await sdk.permits.grantPermit([address]);
           balance = await token.balanceOf(account).catch((error) => {
@@ -166,7 +167,7 @@ export function DecryptAnyToken() {
                     )}
                   </p>
                   <a
-                    href={addressUrl(address)}
+                    href={addressUrl(chainId, address)}
                     target="_blank"
                     rel="noreferrer"
                     className="font-mono text-[11px] text-[var(--muted)] hover:text-[var(--accent)]"

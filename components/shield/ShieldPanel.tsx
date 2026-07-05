@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { erc20Abi } from "viem";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount, useChainId, useReadContract } from "wagmi";
 import { useShield, useUnderlyingAllowance } from "@zama-fhe/react-sdk";
 import type { PairView } from "@/lib/pairs";
 import { txUrl } from "@/lib/chains";
@@ -15,6 +15,7 @@ import { StepChips, type StepState } from "@/components/ui/StepChips";
 
 export function ShieldPanel({ pair }: { pair: PairView }) {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const queryClient = useQueryClient();
   const { addEntry, updateEntry } = useActivity();
   const [input, setInput] = useState("");
@@ -72,6 +73,7 @@ export function ShieldPanel({ pair }: { pair: PairView }) {
       kind: "shield",
       label: `Shield ${input} ${pair.underlying.symbol}`,
       status: "pending",
+      chainId,
     });
     shield.mutate(
       {
@@ -190,7 +192,7 @@ export function ShieldPanel({ pair }: { pair: PairView }) {
       {lastTx && !busy && steps.wrap === "done" && (
         <p className="text-center text-xs text-[var(--good)]">
           Wrapped.{" "}
-          <a href={txUrl(lastTx)} target="_blank" rel="noreferrer" className="underline">
+          <a href={txUrl(chainId, lastTx)} target="_blank" rel="noreferrer" className="underline">
             View transaction
           </a>
         </p>

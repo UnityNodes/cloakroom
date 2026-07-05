@@ -22,6 +22,7 @@ export interface ActivityEntry {
   status: ActivityStatus;
   detail?: string;
   txHash?: string;
+  chainId?: number;
   ts: number;
 }
 

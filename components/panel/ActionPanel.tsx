@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { useChainId } from "wagmi";
+import { SEPOLIA_ID } from "@/lib/chains";
 import type { PairView } from "@/lib/pairs";
 import type { PairAction } from "@/components/registry/PairRow";
 import { Badge } from "@/components/ui/Badge";
@@ -24,6 +26,9 @@ export function ActionPanel({
   onClose: () => void;
   children: React.ReactNode;
 }) {
+  const chainId = useChainId();
+  const tabs = TABS.filter((tab) => tab.id !== "faucet" || chainId === SEPOLIA_ID);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -60,6 +65,12 @@ export function ActionPanel({
           </button>
         </div>
 
+        {chainId !== SEPOLIA_ID && (
+          <div className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--warn)_40%,transparent)] bg-[color-mix(in_srgb,var(--warn)_7%,transparent)] p-3 text-xs text-[var(--warn)]">
+            You are on Ethereum mainnet — these are real assets and real gas.
+          </div>
+        )}
+
         {!pair.isValid && (
           <div className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--warn)_40%,transparent)] bg-[color-mix(in_srgb,var(--warn)_7%,transparent)] p-3 text-xs text-[var(--warn)]">
             This wrapper was revoked in the registry. New wraps are disabled; you can still
@@ -68,7 +79,7 @@ export function ActionPanel({
         )}
 
         <nav className="mt-5 flex gap-1 rounded-full border border-[var(--line)] bg-[var(--panel)] p-1">
-          {TABS.map((tab) => {
+          {tabs.map((tab) => {
             const disabled = tab.id === "shield" && !pair.isValid;
             return (
               <button

@@ -1,9 +1,9 @@
 import { ConnectButton } from "@/components/wallet/ConnectButton";
 import { NetworkGuard } from "@/components/wallet/NetworkGuard";
+import { ChainSwitcher } from "@/components/wallet/ChainSwitcher";
 import { Dashboard } from "@/components/Dashboard";
 import { Hero } from "@/components/Hero";
-import { REGISTRY_ADDRESS, addressUrl } from "@/lib/chains";
-import { shortAddress } from "@/lib/format";
+import { RegistryFooter } from "@/components/RegistryFooter";
 
 function Wordmark() {
   return (
@@ -23,12 +23,10 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <NetworkGuard />
       <header className="sticky top-0 z-40 border-b border-[var(--line-soft)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-6 py-4">
           <Wordmark />
           <div className="flex items-center gap-3">
-            <span className="hidden rounded-full border border-[var(--line)] px-2.5 py-0.5 text-[11px] text-[var(--muted)] sm:inline">
-              Ethereum Sepolia
-            </span>
+            <ChainSwitcher />
             <ConnectButton />
           </div>
         </div>
@@ -39,28 +37,7 @@ export default function Home() {
         <Dashboard />
       </main>
 
-      <footer className="border-t border-[var(--line-soft)] py-6">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 text-[11px] text-[var(--muted)]">
-          <p>
-            Every pair on this page is read live from the on-chain wrappers registry
-            {REGISTRY_ADDRESS && (
-              <>
-                {" "}
-                <a
-                  href={addressUrl(REGISTRY_ADDRESS)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono text-[var(--accent)] hover:underline"
-                >
-                  {shortAddress(REGISTRY_ADDRESS)}
-                </a>
-              </>
-            )}
-            . Nothing is hardcoded — new registrations appear automatically.
-          </p>
-          <p>Confidential balances decrypt locally, only for their owner.</p>
-        </div>
-      </footer>
+      <RegistryFooter />
     </div>
   );
 }

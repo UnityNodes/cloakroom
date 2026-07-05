@@ -23,7 +23,9 @@ Deadline: **2026-07-07 23:59 AoE**. Form: forms.zama.org (Season 3 Bounty Track)
 7. Unshield: unshield 100 cUSDCMock → two wallet confirmations, timeline walks all four steps → USDCMock back.
 8. **Resume drill:** start another unshield, close the tab right after the first confirmation. Reopen → amber "unfinished unwrap" banner → Resume → finalizes.
 9. Activity: entries with tx links; dev mode streams SDK events.
-10. Disconnect wallet: hero + invite states look right. Mobile width: rows wrap cleanly.
+10. Decrypt-any-token: paste cUSDCMock wrapper address → decrypts; paste the USDC underlying address → clean "not an ERC-7984" error; tracked card survives reload.
+11. Custom pair: add a dev entry to config/custom-pairs.ts locally per README, verify "custom" badge and working wrap; break the address on purpose, verify "config error" row.
+12. Disconnect wallet: hero + invite states look right. Mobile width: rows wrap cleanly.
 
 ## 3-minute video script (live voice — talking points, not a teleprompter)
 
@@ -31,8 +33,9 @@ Deadline: **2026-07-07 23:59 AoE**. Form: forms.zama.org (Season 3 Bounty Track)
 2. **0:20–0:50 Registry.** Scroll pairs: "Everything on screen is read live from the on-chain registry — including this steakcUSDC pair that was added after we started building. Zero hardcoded tokens. Revoked wrappers get quarantined but exits stay open."
 3. **0:50–1:20 Faucet + Shield.** Mint test USDC, wrap it. Flash the WETH rounding preview: "six-decimal cap, so we show exactly what wraps and what comes back."
 4. **1:20–2:20 Unshield — the centerpiece.** "Unwrapping confidential tokens is asynchronous: the encrypted amount has to be publicly decrypted before tokens release. Most UIs lose you here." Run it: four-step timeline, two signatures. Then the killer: close the tab mid-flow, reopen, Resume banner, finalize. "Nothing lost, ever."
-5. **2:20–2:45 Decrypt + dev mode.** One signature → all balances. Toggle dev mode: "and for the skeptics — every contract call, live."
-6. **2:45–3:00 Close.** "Production-quality confidential DeFi, built on the deployed registry, ready for mainnet. Cloakroom." URL on screen.
+5. **2:20–2:40 Decrypt — including outside the registry.** One signature → all balances. Then paste an arbitrary ERC-7984 address into "Decrypt any confidential token": "any confidential token works, registered or not — and a wrong address gets a clean error, not a spinner." Toggle dev mode briefly: "every contract call, live."
+6. **2:40–2:55 Extensibility.** Show config/custom-pairs.ts in the editor: "adding a pair is one config entry — validated on-chain, badged as custom. And pairs registered in the official registry appear with zero changes — this ninth pair arrived mid-development."
+7. **2:55–3:00 Close.** "Production-quality confidential DeFi on the official registry. Cloakroom." URL on screen.
 
 ## X thread draft (Serhii — adjust voice, keep facts)
 

@@ -7,21 +7,27 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ZamaProvider } from "@zama-fhe/react-sdk";
 import { createConfig as createZamaConfig } from "@zama-fhe/react-sdk/wagmi";
 import { web } from "@zama-fhe/sdk/web";
-import { chain, fheChain, RPC_URL } from "@/lib/chains";
+import { CHAINS, FHE_CHAINS, MAINNET_ID, RPC_URLS, SEPOLIA_ID } from "@/lib/chains";
 import { sdkEventBus } from "@/lib/event-bus";
 import { ActivityProvider } from "@/lib/activity-store";
 
 const wagmiConfig = createWagmiConfig({
-  chains: [chain],
+  chains: CHAINS,
   connectors: [injected()],
-  transports: { [chain.id]: http(RPC_URL) },
+  transports: {
+    [SEPOLIA_ID]: http(RPC_URLS[SEPOLIA_ID]),
+    [MAINNET_ID]: http(RPC_URLS[MAINNET_ID]),
+  },
   ssr: true,
 });
 
 const zamaConfig = createZamaConfig({
-  chains: [fheChain],
+  chains: FHE_CHAINS,
   wagmiConfig,
-  relayers: { [fheChain.id]: web() },
+  relayers: {
+    [FHE_CHAINS[0].id]: web(),
+    [FHE_CHAINS[1].id]: web(),
+  },
   onEvent: (event) => sdkEventBus.emit(event),
 });
 

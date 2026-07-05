@@ -1,7 +1,8 @@
 "use client";
 
+import { useChainId } from "wagmi";
 import type { PairView } from "@/lib/pairs";
-import { addressUrl } from "@/lib/chains";
+import { SEPOLIA_ID, addressUrl } from "@/lib/chains";
 import { shortAddress } from "@/lib/format";
 import { Badge } from "@/components/ui/Badge";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -19,6 +20,7 @@ function TokenCell({
   address: string;
   confidential?: boolean;
 }) {
+  const chainId = useChainId();
   return (
     <div className="min-w-0">
       <div className="flex items-center gap-2">
@@ -35,7 +37,7 @@ function TokenCell({
           <p className="truncate text-sm font-medium">{symbol}</p>
           <p className="flex items-center gap-1.5 text-[11px] text-[var(--muted)]">
             <a
-              href={addressUrl(address)}
+              href={addressUrl(chainId, address)}
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -60,6 +62,7 @@ export function PairRow({
 }) {
   const revoked = !pair.isValid;
   const broken = Boolean(pair.configError);
+  const chainId = useChainId();
   return (
     <div
       className={`grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-4 py-3 transition-colors hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--line))] sm:gap-4 lg:grid-cols-[1fr_auto_1fr_auto] ${
@@ -111,14 +114,16 @@ export function PairRow({
         >
           Unshield
         </button>
-        <button
-          onClick={() => onAction(pair, "faucet")}
-          disabled={broken}
-          title={broken ? pair.configError : undefined}
-          className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-35"
-        >
-          Faucet
-        </button>
+        {chainId === SEPOLIA_ID && (
+          <button
+            onClick={() => onAction(pair, "faucet")}
+            disabled={broken}
+            title={broken ? pair.configError : undefined}
+            className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            Faucet
+          </button>
+        )}
       </div>
     </div>
   );

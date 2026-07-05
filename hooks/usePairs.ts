@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useChainId } from "wagmi";
 import { useZamaSDK } from "@zama-fhe/react-sdk";
 import type { ZamaSDK } from "@zama-fhe/sdk";
-import { CHAIN_ID } from "@/lib/chains";
 import { CUSTOM_PAIRS } from "@/config/custom-pairs";
 import { mergePairs, toPairView, type CustomPairConfig, type PairView } from "@/lib/pairs";
 
@@ -79,9 +79,10 @@ async function resolveCustomPair(sdk: ZamaSDK, entry: CustomPairConfig): Promise
 
 export function usePairs() {
   const sdk = useZamaSDK();
+  const chainId = useChainId();
 
   const query = useQuery({
-    queryKey: ["registry-pairs", CHAIN_ID],
+    queryKey: ["registry-pairs", chainId],
     queryFn: async (): Promise<PairView[]> => {
       const first = await sdk.registry.listPairs({ page: 1, pageSize: PAGE_SIZE, metadata: true });
       const items = [...first.items];
@@ -91,7 +92,7 @@ export function usePairs() {
         items.push(...next.items);
       }
       const registryPairs = items.map(toPairView);
-      const customEntries = CUSTOM_PAIRS.filter((entry) => entry.chainId === CHAIN_ID);
+      const customEntries = CUSTOM_PAIRS.filter((entry) => entry.chainId === chainId);
       const customPairs = await Promise.all(
         customEntries.map((entry) => resolveCustomPair(sdk, entry)),
       );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import { NoCiphertextError } from "@zama-fhe/sdk";
 import {
   useConfidentialBalances,
@@ -18,6 +18,7 @@ import { RedactedValue } from "./RedactedValue";
 
 export function Portfolio() {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const { validPairs, isLoading: pairsLoading } = usePairs();
   const { balances: publicBalances } = useUnderlyingBalances(validPairs);
   const { addEntry, updateEntry } = useActivity();
@@ -61,7 +62,7 @@ export function Portfolio() {
   const onDecryptAll = () => {
     setDecryptError(null);
     const id = `decrypt-${Date.now()}`;
-    addEntry({ id, kind: "decrypt", label: "Decrypt all balances", status: "pending" });
+    addEntry({ id, kind: "decrypt", label: "Decrypt all balances", status: "pending", chainId });
     grantPermit.mutate(cAddresses, {
       onSuccess: () => {
         setRevealed(true);

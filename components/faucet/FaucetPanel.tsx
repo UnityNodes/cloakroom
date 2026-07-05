@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAccount, useSimulateContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useAccount, useChainId, useSimulateContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import type { PairView } from "@/lib/pairs";
 import { FAUCET_CAP_TOKENS, FAUCET_PRESETS, mintAbi } from "@/lib/faucet";
-import { txUrl } from "@/lib/chains";
+import { SEPOLIA_ID, txUrl } from "@/lib/chains";
 import { useActivity } from "@/lib/activity-store";
 import { humanizeError, rawErrorText } from "@/lib/errors";
 import { formatAmount, parseAmount } from "@/lib/format";
@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 
 export function FaucetPanel({ pair }: { pair: PairView }) {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const queryClient = useQueryClient();
   const { addEntry, updateEntry } = useActivity();
   const [input, setInput] = useState("1000");
@@ -54,6 +55,14 @@ export function FaucetPanel({ pair }: { pair: PairView }) {
     return null;
   }, [input, amount, cap, decimals, pair.underlying.symbol]);
 
+  if (chainId !== SEPOLIA_ID) {
+    return (
+      <p className="rounded-xl border border-dashed border-[var(--line)] p-6 text-center text-sm text-[var(--muted)]">
+        The faucet only exists on Sepolia. Switch networks to mint test tokens.
+      </p>
+    );
+  }
+
   if (!isConnected) {
     return (
       <p className="rounded-xl border border-dashed border-[var(--line)] p-6 text-center text-sm text-[var(--muted)]">
@@ -92,6 +101,7 @@ export function FaucetPanel({ pair }: { pair: PairView }) {
       kind: "faucet",
       label: `Mint ${input} ${pair.underlying.symbol}`,
       status: "pending",
+      chainId,
     });
     writeContract(
       {
@@ -155,7 +165,7 @@ export function FaucetPanel({ pair }: { pair: PairView }) {
       {receipt.isSuccess && txHash && (
         <p className="text-center text-xs text-[var(--good)]">
           Minted.{" "}
-          <a href={txUrl(txHash)} target="_blank" rel="noreferrer" className="underline">
+          <a href={txUrl(chainId, txHash)} target="_blank" rel="noreferrer" className="underline">
             View transaction
           </a>{" "}
           <button onClick={() => reset()} className="ml-1 underline">
