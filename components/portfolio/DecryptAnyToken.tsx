@@ -105,10 +105,11 @@ export function DecryptAnyToken() {
   };
 
   return (
-    <section className="mt-6 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-4">
+    <section className="mt-6 rounded-lg border border-[var(--line)] bg-[var(--panel)] p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <p className="text-sm font-medium">Decrypt any confidential token</p>
+          <p className="eyebrow mb-1.5">Annex · Off-registry</p>
+          <p className="text-sm font-medium">Declassify any confidential token</p>
           <p className="text-xs text-[var(--muted)]">
             Paste the address of any ERC-7984 token — registered here or not — and read
             your balance.
@@ -127,19 +128,19 @@ export function DecryptAnyToken() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="0x… token address"
-          className="w-full rounded-full border border-[var(--line)] bg-[var(--bg)] px-4 py-2 font-mono text-xs outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent)]"
+          className="w-full rounded-md border border-[var(--line)] bg-[var(--bg)] px-4 py-2 font-mono text-xs outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent)]"
         />
         <button
           type="submit"
           disabled={lookup.isPending || !input.trim()}
-          className="shrink-0 rounded-full bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-black hover:brightness-110 disabled:opacity-40"
+          className="shrink-0 rounded-md bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-black hover:brightness-110 disabled:opacity-40"
         >
-          {lookup.isPending ? "Checking…" : isConnected ? "Decrypt" : "Look up"}
+          {lookup.isPending ? "Checking…" : isConnected ? "Declassify" : "Look up"}
         </button>
       </form>
 
       {lookup.isError && (
-        <div className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--bad)_40%,transparent)] bg-[color-mix(in_srgb,var(--bad)_6%,transparent)] p-3 text-xs">
+        <div className="mt-3 rounded-md border border-[color-mix(in_srgb,var(--classified)_40%,transparent)] bg-[var(--classified-soft)] p-3 text-xs">
           <p>{humanizeError(lookup.error)}</p>
           <details className="mt-1 text-[var(--muted)]">
             <summary className="cursor-pointer">details</summary>
@@ -155,7 +156,7 @@ export function DecryptAnyToken() {
             return (
               <li
                 key={address}
-                className="flex items-center justify-between gap-3 rounded-lg border border-[var(--line)] bg-[var(--bg)] px-3 py-2.5"
+                className="flex items-center justify-between gap-3 rounded-md border border-[var(--line)] bg-[var(--bg)] px-3 py-2.5"
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium">
@@ -185,10 +186,10 @@ export function DecryptAnyToken() {
                     <button
                       onClick={() => lookup.mutate(address)}
                       disabled={lookup.isPending}
-                      className="rounded-full border border-[var(--line)] px-2.5 py-1 text-[11px] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:opacity-50"
+                      className="rounded-md border border-[var(--line)] px-2.5 py-1 text-[11px] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:opacity-50"
                       title={isConnected ? "Decrypt balance" : "Connect a wallet to decrypt"}
                     >
-                      {isConnected ? "decrypt" : "connect first"}
+                      {isConnected ? "declassify" : "connect first"}
                     </button>
                   )}
                   <button

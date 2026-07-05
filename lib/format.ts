@@ -48,6 +48,13 @@ export function shortAddress(address: string): string {
   return `${address.slice(0, 6)}…${address.slice(-4)}`;
 }
 
+/** Stable dossier-style case number derived from a wrapper address. */
+export function fileNumber(address: string): string {
+  const hex = address.replace(/^0x/i, "").toUpperCase();
+  if (hex.length < 8) return `CR-${hex}`;
+  return `CR-${hex.slice(0, 4)}·${hex.slice(-4)}`;
+}
+
 export function formatHandle(handle: string): string {
   if (handle.length <= 18) return handle;
   return `${handle.slice(0, 10)}…${handle.slice(-6)}`;

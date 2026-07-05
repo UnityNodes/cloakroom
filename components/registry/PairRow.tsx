@@ -3,7 +3,7 @@
 import { useChainId } from "wagmi";
 import type { PairView } from "@/lib/pairs";
 import { SEPOLIA_ID, addressUrl } from "@/lib/chains";
-import { shortAddress } from "@/lib/format";
+import { fileNumber, shortAddress } from "@/lib/format";
 import { Badge } from "@/components/ui/Badge";
 import { CopyButton } from "@/components/ui/CopyButton";
 
@@ -11,12 +11,10 @@ export type PairAction = "shield" | "unshield" | "faucet";
 
 function TokenCell({
   symbol,
-  name,
   address,
   confidential,
 }: {
   symbol: string;
-  name: string;
   address: string;
   confidential?: boolean;
 }) {
@@ -25,10 +23,10 @@ function TokenCell({
     <div className="min-w-0">
       <div className="flex items-center gap-2">
         <span
-          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px] font-mono text-[10px] font-bold ${
             confidential
-              ? "bg-[var(--accent-soft)] text-[var(--accent)]"
-              : "bg-[var(--panel-2)] text-[var(--muted)]"
+              ? "bg-[var(--accent-soft)] text-[var(--accent)] ring-1 ring-inset ring-[color-mix(in_srgb,var(--accent)_35%,transparent)]"
+              : "bg-[var(--panel-2)] text-[var(--muted)] ring-1 ring-inset ring-[var(--line)]"
           }`}
         >
           {symbol.replace(/^c/, "").slice(0, 3).toUpperCase()}
@@ -63,67 +61,79 @@ export function PairRow({
   const revoked = !pair.isValid;
   const broken = Boolean(pair.configError);
   const chainId = useChainId();
+
   return (
     <div
-      className={`grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-4 py-3 transition-colors hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--line))] sm:gap-4 lg:grid-cols-[1fr_auto_1fr_auto] ${
-        revoked ? "opacity-75" : ""
+      className={`group relative rounded-lg border border-[var(--line)] bg-[var(--panel)] pl-4 pr-4 py-3 transition-colors hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--line))] ${
+        revoked || broken ? "opacity-80" : ""
       }`}
     >
-      <TokenCell
-        symbol={pair.underlying.symbol}
-        name={pair.underlying.name}
-        address={pair.underlying.address}
+      <span
+        aria-hidden
+        className={`absolute inset-y-2 left-0 w-[3px] rounded-full ${
+          broken || revoked
+            ? "bg-[color-mix(in_srgb,var(--classified)_55%,transparent)]"
+            : "bg-[color-mix(in_srgb,var(--accent)_0%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--accent)_60%,transparent)]"
+        } transition-colors`}
       />
-      <div className="flex flex-col items-center gap-1">
-        <span className="text-[var(--muted)]">⇄</span>
-        {broken ? (
-          <Badge tone="bad">config error</Badge>
-        ) : revoked ? (
-          <Badge tone="bad">revoked</Badge>
-        ) : (
-          <Badge tone="good">active</Badge>
-        )}
-        {pair.source === "custom" && !broken && <Badge tone="warn">custom</Badge>}
+
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <span className="ref flex items-center gap-1.5">
+          <span className="text-[color-mix(in_srgb,var(--muted)_75%,transparent)]">CASE&nbsp;FILE</span>
+          <span className="text-[var(--text)]">{fileNumber(pair.confidential.address)}</span>
+        </span>
+        <div className="flex items-center gap-1.5">
+          {pair.source === "custom" && !broken && <Badge tone="warn">custom</Badge>}
+          {broken ? (
+            <Badge tone="bad">config error</Badge>
+          ) : revoked ? (
+            <Badge tone="bad">revoked</Badge>
+          ) : (
+            <Badge tone="good">active</Badge>
+          )}
+        </div>
       </div>
-      <TokenCell
-        symbol={pair.confidential.symbol}
-        name={pair.confidential.name}
-        address={pair.confidential.address}
-        confidential
-      />
-      <div className="col-span-3 flex flex-wrap items-center justify-end gap-2 border-t border-[var(--line-soft)] pt-2.5 lg:col-span-1 lg:border-t-0 lg:pt-0">
-        <button
-          onClick={() => onAction(pair, "shield")}
-          disabled={revoked || broken}
-          title={
-            broken
-              ? pair.configError
-              : revoked
-                ? "This wrapper was revoked in the registry. Wrapping is disabled."
-                : undefined
-          }
-          className="rounded-full bg-[var(--accent)] px-3.5 py-1.5 text-xs font-semibold text-black transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-35"
-        >
-          Shield
-        </button>
-        <button
-          onClick={() => onAction(pair, "unshield")}
-          disabled={broken}
-          title={broken ? pair.configError : undefined}
-          className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium transition-colors hover:border-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-35"
-        >
-          Unshield
-        </button>
-        {chainId === SEPOLIA_ID && (
+
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 lg:grid-cols-[1fr_auto_1fr_auto]">
+        <TokenCell symbol={pair.underlying.symbol} address={pair.underlying.address} />
+        <span className="font-mono text-[var(--muted)]" aria-hidden>
+          ⇄
+        </span>
+        <TokenCell symbol={pair.confidential.symbol} address={pair.confidential.address} confidential />
+        <div className="col-span-3 flex flex-wrap items-center justify-end gap-2 border-t border-[var(--line-soft)] pt-2.5 lg:col-span-1 lg:border-t-0 lg:pt-0">
           <button
-            onClick={() => onAction(pair, "faucet")}
+            onClick={() => onAction(pair, "shield")}
+            disabled={revoked || broken}
+            title={
+              broken
+                ? pair.configError
+                : revoked
+                  ? "This wrapper was revoked in the registry. Wrapping is disabled."
+                  : undefined
+            }
+            className="rounded-md bg-[var(--accent)] px-3.5 py-1.5 text-xs font-semibold text-black transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            Shield
+          </button>
+          <button
+            onClick={() => onAction(pair, "unshield")}
             disabled={broken}
             title={broken ? pair.configError : undefined}
-            className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-35"
+            className="rounded-md border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium transition-colors hover:border-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-35"
           >
-            Faucet
+            Unshield
           </button>
-        )}
+          {chainId === SEPOLIA_ID && (
+            <button
+              onClick={() => onAction(pair, "faucet")}
+              disabled={broken}
+              title={broken ? pair.configError : undefined}
+              className="rounded-md border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-35"
+            >
+              Faucet
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

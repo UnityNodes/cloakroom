@@ -2,7 +2,7 @@ import { ConnectButton } from "@/components/wallet/ConnectButton";
 import { NetworkGuard } from "@/components/wallet/NetworkGuard";
 import { ChainSwitcher } from "@/components/wallet/ChainSwitcher";
 import { Dashboard } from "@/components/Dashboard";
-import { Hero } from "@/components/Hero";
+import { Masthead } from "@/components/Masthead";
 import { RegistryFooter } from "@/components/RegistryFooter";
 
 function Wordmark() {
@@ -14,6 +14,9 @@ function Wordmark() {
         <span className="h-[3px] w-5 rounded-sm bg-[var(--accent)] opacity-40" />
       </span>
       <span className="font-display text-xl font-semibold tracking-tight">Cloakroom</span>
+      <span className="ref hidden rounded-[3px] border border-[var(--line)] px-1.5 py-0.5 text-[9px] text-[var(--muted)] sm:inline">
+        CONFIDENTIAL
+      </span>
     </div>
   );
 }
@@ -33,7 +36,7 @@ export default function Home() {
       </header>
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 pb-24 pt-10">
-        <Hero />
+        <Masthead />
         <Dashboard />
       </main>
 

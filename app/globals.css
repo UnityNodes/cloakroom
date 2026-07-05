@@ -1,21 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #100e0c;
-  --bg-raised: #16130f;
-  --panel: #1a1712;
-  --panel-2: #221e17;
-  --line: #2e2820;
-  --line-soft: #262119;
-  --text: #ece7dd;
-  --muted: #948b7c;
-  --accent: #d9a441;
-  --accent-soft: rgba(217, 164, 65, 0.12);
-  --good: #7fc98f;
-  --bad: #e07a6a;
-  --warn: #d9b23f;
+  --bg: #0d0c0a;
+  --bg-raised: #131109;
+  --panel: #16130d;
+  --panel-2: #1d1912;
+  --line: #2c2619;
+  --line-soft: #221d13;
+  --text: #ece4d3;
+  --muted: #8d8271;
+  --accent: #d99a34;
+  --accent-soft: rgba(217, 154, 52, 0.12);
+  --classified: #c34733;
+  --classified-soft: rgba(195, 71, 51, 0.12);
+  --good: #8ba24a;
+  --good-soft: rgba(139, 162, 74, 0.12);
+  --bad: #c34733;
+  --warn: #d99a34;
+  --paper: #e7dfcb;
+  --paper-ink: #1a160e;
   --font-display: var(--font-fraunces);
   --font-body: var(--font-schibsted);
+  --font-mono: var(--font-jetbrains);
 }
 
 * {
@@ -31,19 +37,15 @@ body {
   color: var(--text);
   font-family: var(--font-body), system-ui, sans-serif;
   background-image: radial-gradient(
-      1200px 500px at 50% -10%,
-      rgba(217, 164, 65, 0.06),
-      transparent 60%
+      1100px 460px at 50% -12%,
+      rgba(217, 154, 52, 0.07),
+      transparent 62%
     ),
-    radial-gradient(900px 900px at 110% 110%, rgba(217, 164, 65, 0.03), transparent 55%);
+    radial-gradient(760px 760px at 108% 112%, rgba(195, 71, 51, 0.035), transparent 55%);
   background-attachment: fixed;
 }
 
-.font-display {
-  font-family: var(--font-display), Georgia, serif;
-  font-variation-settings: "opsz" 40;
-  letter-spacing: -0.01em;
-}
+/* ---- document textures --------------------------------------------------- */
 
 .grain::before {
   content: "";
@@ -55,13 +57,132 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+.scanlines::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0.6;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(236, 228, 211, 0.016) 0px,
+    rgba(236, 228, 211, 0.016) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---- typographic marks --------------------------------------------------- */
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "opsz" 40;
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
 .eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--muted);
 }
+
+.ref {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+/* classification banner: spaced caps between rules */
+.classline {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.classline::before,
+.classline::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to var(--dir, right), var(--line), transparent);
+}
+.classline::before {
+  --dir: left;
+}
+
+/* ---- rubber stamp -------------------------------------------------------- */
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.24em 0.55em;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  transform: rotate(-2.5deg);
+  opacity: 0.9;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 22%, transparent);
+}
+
+/* one-shot DECLASSIFIED slam overlay */
+.stamp-slam {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--good);
+  border: 3px solid currentColor;
+  border-radius: 6px;
+  padding: 0.3em 0.7em;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, currentColor 25%, transparent);
+  animation: stamp-slam 1.15s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+}
+
+/* registration / crop marks on document surfaces */
+.regmarks {
+  position: relative;
+}
+.regmarks::before,
+.regmarks::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  border-style: solid;
+  pointer-events: none;
+}
+.regmarks::before {
+  top: 9px;
+  left: 9px;
+  border-width: 1px 0 0 1px;
+}
+.regmarks::after {
+  bottom: 9px;
+  right: 9px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ---- interactions -------------------------------------------------------- */
 
 ::selection {
   background: var(--accent);
@@ -78,6 +199,8 @@ body {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ---- motion -------------------------------------------------------------- */
 
 @keyframes reveal {
   from {
@@ -117,10 +240,34 @@ body {
 @keyframes redact-shimmer {
   0%,
   100% {
-    opacity: 0.75;
+    opacity: 0.78;
   }
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes stamp-slam {
+  0% {
+    opacity: 0;
+    transform: rotate(-9deg) scale(2.6);
+    filter: blur(3px);
+  }
+  55% {
+    opacity: 0.96;
+    transform: rotate(-9deg) scale(0.9);
+    filter: blur(0);
+  }
+  70% {
+    transform: rotate(-9deg) scale(1.05);
+  }
+  85% {
+    opacity: 0.96;
+    transform: rotate(-9deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-9deg) scale(1);
   }
 }
 

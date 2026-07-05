@@ -5,7 +5,7 @@ import { Providers } from "./providers";
 
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 const schibsted = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-schibsted" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 export const metadata: Metadata = {
   title: "Cloakroom — check your tokens into confidentiality",
@@ -18,7 +18,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${schibsted.variable} ${mono.variable}`}>
-      <body className="grain antialiased">
+      <body className="grain scanlines antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>
