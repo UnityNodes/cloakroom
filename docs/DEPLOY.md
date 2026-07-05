@@ -31,15 +31,15 @@ that same URL becomes the submission URL.
    | `NEXT_PUBLIC_RPC_URL` | your Sepolia RPC | Alchemy/Infura recommended over public nodes |
    | `NEXT_PUBLIC_MAINNET_RPC_URL` | your mainnet RPC | optional; falls back to a public node |
 
-   Both are `NEXT_PUBLIC_*`, so they are read at build time — set them before the
-   first deploy (or redeploy after adding).
+   Both are `NEXT_PUBLIC_*`, so they are read at build time. Set them before the
+   first deploy, or redeploy after adding.
 4. **Deploy.** Every push to `main` ships to production; every PR gets a preview
    URL.
 
 Node: Next 15 runs on Vercel's default Node (20/22). Local dev used Node 23; no
 version pin is required.
 
-## Headers / CSP — important
+## Headers and CSP (important)
 
 - **Do NOT enable cross-origin isolation** (`Cross-Origin-Opener-Policy` /
   `Cross-Origin-Embedder-Policy`). The relayer worker is single-threaded by
@@ -63,11 +63,11 @@ version pin is required.
 
 1. Registry loads on both Sepolia and Ethereum via the header switcher.
 2. Connect a wallet on Sepolia; faucet → shield → **decrypt** (this is the
-   worker/relayer path — watch the browser console for worker errors) → unshield.
+   worker and relayer path, so watch the console for worker errors), then unshield.
 3. Decrypt an off-registry ERC-7984 via the annex card.
 4. Open the browser console once: no CSP violations, no failed requests to
    `cdn.zama.org` or the relayer.
 
 If decryption stalls, check the Network tab for a blocked request to
-`cdn.zama.org` (CSP) or a relayer 4xx (wrong chain / RPC) — those are the only
-two realistic prod failures given the current setup.
+`cdn.zama.org` (CSP) or a relayer 4xx (wrong chain or RPC). Those are the only
+two realistic production failures given the current setup.
