@@ -111,8 +111,8 @@ export function ShieldPanel({ pair }: { pair: PairView }) {
     <div className="space-y-4">
       <p className="text-sm text-[var(--muted)]">
         Wrap public {pair.underlying.symbol} into confidential {pair.confidential.symbol}. The
-        amount you wrap is the last publicly visible trace — after this, transfers and
-        balances are encrypted.
+        amount you wrap is the last public trace. After that, transfers and balances stay
+        encrypted.
       </p>
 
       <div className="flex items-center justify-between text-xs text-[var(--muted)]">
@@ -120,7 +120,7 @@ export function ShieldPanel({ pair }: { pair: PairView }) {
         <span className="font-mono tabular-nums">
           {balance.data !== undefined
             ? `${formatAmount(balance.data as bigint, pair.underlying.decimals)} ${pair.underlying.symbol}`
-            : "—"}
+            : "·"}
         </span>
       </div>
 

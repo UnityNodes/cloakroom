@@ -8,9 +8,9 @@ const schibsted = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-schi
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 export const metadata: Metadata = {
-  title: "Cloakroom — check your tokens into confidentiality",
+  title: "Cloakroom · Confidential wrapper registry",
   description:
-    "Wrap public ERC-20s into confidential ERC-7984 tokens, decrypt balances only you can see, and unwrap back — on Ethereum Sepolia.",
+    "Wrap public ERC-20s into confidential ERC-7984 tokens, decrypt balances only you can see, and unwrap back. Ethereum Sepolia and mainnet.",
 };
 
 export default function RootLayout({

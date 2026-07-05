@@ -1,22 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0d0c0a;
-  --bg-raised: #131109;
-  --panel: #16130d;
-  --panel-2: #1d1912;
-  --line: #2c2619;
-  --line-soft: #221d13;
-  --text: #ece4d3;
-  --muted: #8d8271;
-  --accent: #d99a34;
-  --accent-soft: rgba(217, 154, 52, 0.12);
-  --classified: #c34733;
-  --classified-soft: rgba(195, 71, 51, 0.12);
-  --good: #8ba24a;
-  --good-soft: rgba(139, 162, 74, 0.12);
-  --bad: #c34733;
-  --warn: #d99a34;
+  --bg: #0c0b09;
+  --bg-raised: #16130c;
+  --panel: #1a160e;
+  --panel-2: #241d12;
+  --line: #322a1c;
+  --line-soft: #272015;
+  --text: #e9e2d3;
+  --muted: #978c78;
+  /* warm gild: value that has been revealed */
+  --accent: #cf9f52;
+  --accent-soft: rgba(207, 159, 82, 0.12);
+  --accent-glow: rgba(207, 159, 82, 0.22);
+  /* cool cipher: value that is still encrypted (muted sage-teal, easy on the eye) */
+  --cipher: #7cb7ac;
+  --cipher-soft: rgba(124, 183, 172, 0.1);
+  --cipher-glow: rgba(124, 183, 172, 0.2);
+  --classified: #c25a46;
+  --classified-soft: rgba(194, 90, 70, 0.1);
+  --good: #93ad6a;
+  --good-soft: rgba(147, 173, 106, 0.12);
+  --bad: #c25a46;
+  --warn: #cf9f52;
   --paper: #e7dfcb;
   --paper-ink: #1a160e;
   --font-display: var(--font-fraunces);
@@ -38,11 +44,30 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
   background-image: radial-gradient(
       1100px 460px at 50% -12%,
-      rgba(217, 154, 52, 0.07),
+      rgba(207, 159, 82, 0.06),
       transparent 62%
     ),
-    radial-gradient(760px 760px at 108% 112%, rgba(195, 71, 51, 0.035), transparent 55%);
+    radial-gradient(820px 700px at 110% 116%, rgba(124, 183, 172, 0.045), transparent 58%);
   background-attachment: fixed;
+}
+
+/* ---- cipher / gild luminance -------------------------------------------- */
+
+.glow-gild {
+  color: var(--accent);
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+.glow-cipher {
+  color: var(--cipher);
+  text-shadow: 0 0 12px var(--cipher-glow);
+}
+
+/* raised document surface with a soft top light and gentle depth */
+.depth {
+  background:
+    linear-gradient(180deg, rgba(233, 226, 211, 0.03), transparent 42%),
+    var(--panel);
+  box-shadow: 0 30px 70px -46px #000, inset 0 1px 0 rgba(233, 226, 211, 0.04);
 }
 
 /* ---- document textures --------------------------------------------------- */
@@ -149,7 +174,8 @@ body {
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--good);
+  color: var(--accent);
+  text-shadow: 0 0 24px var(--accent-glow);
   border: 3px solid currentColor;
   border-radius: 6px;
   padding: 0.3em 0.7em;

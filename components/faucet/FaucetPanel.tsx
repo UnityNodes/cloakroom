@@ -81,9 +81,9 @@ export function FaucetPanel({ pair }: { pair: PairView }) {
       <div className="rounded-xl border border-[var(--line)] bg-[var(--panel)] p-5 text-sm text-[var(--muted)]">
         <p className="font-medium text-[var(--text)]">No public faucet for this token</p>
         <p className="mt-2 leading-relaxed">
-          {pair.underlying.symbol} does not expose a public mint — it is a restricted or
+          {pair.underlying.symbol} has no public mint. It is a restricted or
           production-style asset. Pick any pair marked as a mock to try the full
-          shield/unshield loop with free test tokens.
+          shield and unshield loop with free test tokens.
         </p>
       </div>
     );

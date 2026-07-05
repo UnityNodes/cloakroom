@@ -29,7 +29,7 @@ export function Dashboard() {
                 {pending.length} unfinished unwrap{pending.length > 1 ? "s" : ""}
               </span>{" "}
               <span className="text-[var(--muted)]">
-                — requested earlier but never finalized. Funds are safe.
+                requested earlier, never finalized. Your funds are safe.
               </span>
             </p>
             <div className="flex gap-2">
@@ -52,7 +52,9 @@ export function Dashboard() {
         <DecryptAnyToken />
       </div>
 
-      <PairsTable onAction={(pair, action) => setSelected({ pair, action })} />
+      <div className="border-t border-[var(--line-soft)] pt-10">
+        <PairsTable onAction={(pair, action) => setSelected({ pair, action })} />
+      </div>
 
       {selected && (
         <ActionPanel

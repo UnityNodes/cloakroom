@@ -111,8 +111,8 @@ export function DecryptAnyToken() {
           <p className="eyebrow mb-1.5">Annex · Off-registry</p>
           <p className="text-sm font-medium">Declassify any confidential token</p>
           <p className="text-xs text-[var(--muted)]">
-            Paste the address of any ERC-7984 token — registered here or not — and read
-            your balance.
+            Paste any ERC-7984 token address, registered here or not, and read your
+            balance.
           </p>
         </div>
       </div>

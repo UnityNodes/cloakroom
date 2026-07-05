@@ -76,7 +76,7 @@ export function ActionPanel({
         {chainId !== SEPOLIA_ID && (
           <div className="mt-3 flex items-center gap-2 rounded-md border border-[color-mix(in_srgb,var(--classified)_45%,transparent)] bg-[var(--classified-soft)] p-3 text-xs text-[var(--classified)]">
             <span className="ref shrink-0">LIVE</span>
-            <span>Ethereum mainnet — real assets and real gas.</span>
+            <span>Ethereum mainnet. Real assets, real gas.</span>
           </div>
         )}
 

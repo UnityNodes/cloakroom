@@ -5,7 +5,7 @@ export function StepChips({ steps }: { steps: { label: string; state: StepState 
     <ol className="flex flex-wrap items-center gap-2">
       {steps.map((step, i) => (
         <li key={step.label} className="flex items-center gap-2">
-          {i > 0 && <span className="text-[var(--line)]">—</span>}
+          {i > 0 && <span className="text-[var(--line)]">→</span>}
           <span
             className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-medium ${
               step.state === "done"

@@ -4,6 +4,7 @@ import { ChainSwitcher } from "@/components/wallet/ChainSwitcher";
 import { Dashboard } from "@/components/Dashboard";
 import { Masthead } from "@/components/Masthead";
 import { RegistryFooter } from "@/components/RegistryFooter";
+import { CipherRain } from "@/components/CipherRain";
 
 function Wordmark() {
   return (
@@ -24,6 +25,7 @@ function Wordmark() {
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <CipherRain />
       <NetworkGuard />
       <header className="sticky top-0 z-40 border-b border-[var(--line-soft)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-6 py-4">

@@ -12,7 +12,7 @@ import { usePairs } from "@/hooks/usePairs";
 import { useUnderlyingBalances } from "@/hooks/useUnderlyingBalances";
 import { useActivity } from "@/lib/activity-store";
 import { humanizeError } from "@/lib/errors";
-import { formatAmount } from "@/lib/format";
+import { fileNumber, formatAmount } from "@/lib/format";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RedactedValue } from "./RedactedValue";
@@ -55,7 +55,7 @@ export function Portfolio() {
         <h2 className="font-display text-lg font-semibold">Your confidential portfolio</h2>
         <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-[var(--muted)]">
           Connect a wallet to see public and classified balances side by side. Classified
-          balances stay redacted for everyone — including block explorers — until you
+          balances stay redacted for everyone, block explorers included, until you
           declassify them locally.
         </p>
       </section>
@@ -136,18 +136,27 @@ export function Portfolio() {
             return (
               <div
                 key={pair.confidential.address}
-                className="rounded-lg border border-[var(--line)] bg-[var(--panel)] p-4"
+                className="depth rounded-lg border border-[var(--line)] p-4 transition-colors hover:border-[color-mix(in_srgb,var(--cipher)_30%,var(--line))]"
               >
+                <p className="ref mb-2.5 border-b border-[var(--line-soft)] pb-2 text-[9px]">
+                  {fileNumber(pair.confidential.address)}
+                </p>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium">{pair.underlying.symbol}</p>
+                  <p className="flex items-baseline gap-1.5 text-sm font-medium">
+                    <span className="ref text-[8px] text-[color-mix(in_srgb,var(--muted)_75%,transparent)]">
+                      PUB
+                    </span>
+                    {pair.underlying.symbol}
+                  </p>
                   <p className="font-mono text-sm tabular-nums text-[var(--muted)]">
                     {publicBalance !== undefined
                       ? formatAmount(publicBalance, pair.underlying.decimals)
-                      : "—"}
+                      : "·"}
                   </p>
                 </div>
-                <div className="mt-3 flex items-center justify-between border-t border-[var(--line)] pt-3">
-                  <p className="text-sm font-medium text-[var(--accent)]">
+                <div className="mt-2.5 flex items-center justify-between border-t border-[var(--line)] pt-2.5">
+                  <p className="flex items-baseline gap-1.5 text-sm font-medium text-[var(--accent)]">
+                    <span className="ref text-[8px] text-[var(--classified)]">CLASS</span>
                     {pair.confidential.symbol}
                   </p>
                   <div className="text-sm">

@@ -184,8 +184,8 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
         <div className="rounded-xl border border-[color-mix(in_srgb,var(--warn)_45%,transparent)] bg-[color-mix(in_srgb,var(--warn)_8%,transparent)] p-4">
           <p className="text-sm font-medium text-[var(--warn)]">Unfinished unwrap found</p>
           <p className="mt-1 text-xs text-[var(--muted)]">
-            An earlier unwrap request was never finalized (page closed mid-flow?). No funds
-            are lost — finish it now.
+            An earlier unwrap request was never finalized (page closed mid-flow?). Nothing
+            is lost. Finish it now.
           </p>
           <button
             onClick={resume}
@@ -206,7 +206,7 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
             ) : balance.isLoading ? (
               "decrypting…"
             ) : (
-              "—"
+              "·"
             )}
           </span>
         ) : (
@@ -243,7 +243,7 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
           {hasPermit.data !== true && (
             <p className="text-[11px] leading-relaxed text-[var(--muted)]">
               Amounts are checked against your decrypted balance before sending, so decrypt
-              first — or use “Unshield everything”, which works directly on the encrypted
+              first, or use “Unshield everything”, which works straight on the encrypted
               balance without revealing it.
             </p>
           )}
@@ -286,7 +286,7 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
           }}
           className="w-full rounded-full border border-[var(--line)] py-2.5 text-sm text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
         >
-          Done — unshield more
+          Done. Unshield more
         </button>
       )}
 
@@ -295,8 +295,8 @@ export function UnshieldPanel({ pair }: { pair: PairView }) {
           <p>{humanizeError(error)}</p>
           {unwrapTx && (
             <p className="mt-1 text-[var(--muted)]">
-              The unwrap request is saved. Reopen this panel any time and hit Resume — no
-              funds are lost.
+              The unwrap request is saved. Reopen this panel any time and hit Resume. Nothing
+              is lost.
             </p>
           )}
           <details className="mt-1 text-[var(--muted)]">

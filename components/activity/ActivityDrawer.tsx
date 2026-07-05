@@ -116,7 +116,7 @@ export function ActivityDrawer() {
               {devMode && (
                 <div className="space-y-1 font-mono text-[10px] leading-relaxed">
                   <p className="mb-2 text-[var(--muted)]">
-                    Raw SDK event stream — every encrypt, decrypt and contract call the app
+                    Raw SDK event stream. Every encrypt, decrypt and contract call the app
                     makes.
                   </p>
                   {devLog.length === 0 && (

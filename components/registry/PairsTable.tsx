@@ -30,7 +30,7 @@ export function PairsTable({
         sub={
           isLoading
             ? "Reading pairs from the on-chain registry…"
-            : `${pairs.length} pairs on record — read live from the registry, nothing hardcoded.`
+            : `${pairs.length} pairs on record, read live from the registry. Nothing hardcoded.`
         }
         action={
           <input
@@ -65,8 +65,8 @@ export function PairsTable({
       {!isLoading && error == null && (
         <>
           <div className="stagger space-y-2">
-            {filteredValid.map((pair) => (
-              <PairRow key={pair.confidential.address} pair={pair} onAction={onAction} />
+            {filteredValid.map((pair, i) => (
+              <PairRow key={pair.confidential.address} pair={pair} index={i + 1} onAction={onAction} />
             ))}
             {filteredValid.length === 0 && (
               <p className="rounded-lg border border-dashed border-[var(--line)] p-6 text-center text-sm text-[var(--muted)]">
@@ -85,13 +85,18 @@ export function PairsTable({
                 <span className="ref text-[var(--classified)]">REVOKED</span>
                 <span>· {filteredRevoked.length} sealed file{filteredRevoked.length > 1 ? "s" : ""}</span>
                 <span className="font-normal">
-                  — struck from the registry; wrapping is blocked, exits remain possible
+                  · struck off the registry. Wrapping blocked, exits stay open.
                 </span>
               </button>
               {showRevoked && (
                 <div className="space-y-2">
-                  {filteredRevoked.map((pair) => (
-                    <PairRow key={pair.confidential.address} pair={pair} onAction={onAction} />
+                  {filteredRevoked.map((pair, i) => (
+                    <PairRow
+                      key={pair.confidential.address}
+                      pair={pair}
+                      index={filteredValid.length + i + 1}
+                      onAction={onAction}
+                    />
                   ))}
                 </div>
               )}
