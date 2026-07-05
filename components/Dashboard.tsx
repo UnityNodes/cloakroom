@@ -5,6 +5,7 @@ import type { PairView } from "@/lib/pairs";
 import { usePairs } from "@/hooks/usePairs";
 import { usePendingUnshields } from "@/hooks/usePendingUnshields";
 import { Portfolio } from "@/components/portfolio/Portfolio";
+import { DecryptAnyToken } from "@/components/portfolio/DecryptAnyToken";
 import { PairsTable } from "@/components/registry/PairsTable";
 import { ActionPanel } from "@/components/panel/ActionPanel";
 import { ShieldPanel } from "@/components/shield/ShieldPanel";
@@ -46,7 +47,10 @@ export function Dashboard() {
         </div>
       )}
 
-      <Portfolio />
+      <div>
+        <Portfolio />
+        <DecryptAnyToken />
+      </div>
 
       <PairsTable onAction={(pair, action) => setSelected({ pair, action })} />
 

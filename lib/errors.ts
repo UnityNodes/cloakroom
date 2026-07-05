@@ -13,6 +13,13 @@ import {
   WalletNotConnectedError,
 } from "@zama-fhe/sdk";
 
+export class UnsupportedTokenError extends Error {
+  constructor(address: string) {
+    super(`${address} does not implement the ERC-7984 confidential token interface`);
+    this.name = "UnsupportedTokenError";
+  }
+}
+
 export function isUserRejection(error: unknown): boolean {
   if (error instanceof SigningRejectedError) return true;
   if (typeof error === "object" && error !== null) {
@@ -26,6 +33,9 @@ export function isUserRejection(error: unknown): boolean {
 export function humanizeError(error: unknown): string {
   if (isUserRejection(error)) {
     return "Signature declined in the wallet. Nothing was sent.";
+  }
+  if (error instanceof UnsupportedTokenError) {
+    return "This address is not an ERC-7984 confidential token. Check the address and the selected network.";
   }
   if (error instanceof InsufficientERC20BalanceError) {
     return "Not enough public tokens for that amount. Grab some from the faucet first.";
