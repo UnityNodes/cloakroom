@@ -59,6 +59,7 @@ export function PairRow({
   onAction: (pair: PairView, action: PairAction) => void;
 }) {
   const revoked = !pair.isValid;
+  const broken = Boolean(pair.configError);
   return (
     <div
       className={`grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-4 py-3 transition-colors hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--line))] sm:gap-4 lg:grid-cols-[1fr_auto_1fr_auto] ${
@@ -72,11 +73,14 @@ export function PairRow({
       />
       <div className="flex flex-col items-center gap-1">
         <span className="text-[var(--muted)]">⇄</span>
-        {revoked ? (
+        {broken ? (
+          <Badge tone="bad">config error</Badge>
+        ) : revoked ? (
           <Badge tone="bad">revoked</Badge>
         ) : (
           <Badge tone="good">active</Badge>
         )}
+        {pair.source === "custom" && !broken && <Badge tone="warn">custom</Badge>}
       </div>
       <TokenCell
         symbol={pair.confidential.symbol}
@@ -87,21 +91,31 @@ export function PairRow({
       <div className="col-span-3 flex flex-wrap items-center justify-end gap-2 border-t border-[var(--line-soft)] pt-2.5 lg:col-span-1 lg:border-t-0 lg:pt-0">
         <button
           onClick={() => onAction(pair, "shield")}
-          disabled={revoked}
-          title={revoked ? "This wrapper was revoked in the registry. Wrapping is disabled." : undefined}
+          disabled={revoked || broken}
+          title={
+            broken
+              ? pair.configError
+              : revoked
+                ? "This wrapper was revoked in the registry. Wrapping is disabled."
+                : undefined
+          }
           className="rounded-full bg-[var(--accent)] px-3.5 py-1.5 text-xs font-semibold text-black transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-35"
         >
           Shield
         </button>
         <button
           onClick={() => onAction(pair, "unshield")}
-          className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium transition-colors hover:border-[var(--accent)]"
+          disabled={broken}
+          title={broken ? pair.configError : undefined}
+          className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium transition-colors hover:border-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-35"
         >
           Unshield
         </button>
         <button
           onClick={() => onAction(pair, "faucet")}
-          className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--text)]"
+          disabled={broken}
+          title={broken ? pair.configError : undefined}
+          className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--text)] disabled:cursor-not-allowed disabled:opacity-35"
         >
           Faucet
         </button>

@@ -1,6 +1,14 @@
 import type { Address } from "viem";
 import type { TokenWrapperPairWithMetadata } from "@zama-fhe/sdk";
 
+export type PairSource = "registry" | "custom";
+
+export interface CustomPairConfig {
+  chainId: number;
+  tokenAddress: Address;
+  confidentialTokenAddress: Address;
+}
+
 export interface PairView {
   underlying: {
     address: Address;
@@ -17,6 +25,16 @@ export interface PairView {
   };
   isValid: boolean;
   rate: bigint;
+  source: PairSource;
+  configError?: string;
+}
+
+export function mergePairs(registry: PairView[], custom: PairView[]): PairView[] {
+  const known = new Set(registry.map((p) => p.confidential.address.toLowerCase()));
+  const additions = custom.filter(
+    (p) => !known.has(p.confidential.address.toLowerCase()),
+  );
+  return [...registry, ...additions];
 }
 
 export function toPairView(pair: TokenWrapperPairWithMetadata): PairView {
@@ -37,6 +55,7 @@ export function toPairView(pair: TokenWrapperPairWithMetadata): PairView {
     },
     isValid: pair.isValid,
     rate: 10n ** BigInt(rateExponent),
+    source: "registry",
   };
 }
 

@@ -11,11 +11,13 @@ export function PairsTable({
 }: {
   onAction: (pair: PairView, action: PairAction) => void;
 }) {
-  const { validPairs, revokedPairs, isLoading, error, refetch, pairs } = usePairs();
+  const { revokedPairs, isLoading, error, refetch, pairs } = usePairs();
   const [query, setQuery] = useState("");
   const [showRevoked, setShowRevoked] = useState(false);
 
-  const filteredValid = validPairs.filter((p) => pairMatches(p, query));
+  const filteredValid = pairs
+    .filter((p) => p.isValid)
+    .filter((p) => pairMatches(p, query));
   const filteredRevoked = revokedPairs.filter((p) => pairMatches(p, query));
 
   return (
