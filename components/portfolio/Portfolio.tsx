@@ -48,7 +48,7 @@ export function Portfolio() {
   if (!isConnected) {
     return (
       <section className="rounded-2xl border border-dashed border-[var(--line)] p-8 text-center">
-        <h2 className="text-base font-semibold">Your confidential portfolio</h2>
+        <h2 className="font-display text-lg font-semibold">Your confidential portfolio</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
           Connect a wallet to see public and encrypted balances side by side. Encrypted
           balances stay hidden from everyone — including block explorers — until you
@@ -78,8 +78,9 @@ export function Portfolio() {
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold">Portfolio</h2>
-          <p className="text-xs text-[var(--muted)]">
+          <p className="eyebrow mb-1">Holdings</p>
+          <h2 className="font-display text-xl font-semibold">Portfolio</h2>
+          <p className="mt-0.5 text-xs text-[var(--muted)]">
             Public balances are visible to anyone. Confidential balances decrypt only for
             you, after one signature.
           </p>
@@ -108,7 +109,7 @@ export function Portfolio() {
         </p>
       )}
 
-      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="stagger grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {pairsLoading &&
           Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
         {!pairsLoading &&

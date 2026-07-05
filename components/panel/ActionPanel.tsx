@@ -36,11 +36,11 @@ export function ActionPanel({
     <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-[2px]" onClick={onClose}>
       <aside
         onClick={(e) => e.stopPropagation()}
-        className="flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-[var(--line)] bg-[var(--bg)] p-6 shadow-2xl"
+        className="panel-in flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-[var(--line)] bg-[var(--bg-raised)] p-6 shadow-2xl"
       >
         <div className="mb-1 flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold">
+            <h2 className="font-display text-xl font-semibold">
               {pair.underlying.symbol}
               <span className="mx-2 text-[var(--muted)]">⇄</span>
               {pair.confidential.symbol}

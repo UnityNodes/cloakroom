@@ -22,8 +22,9 @@ export function PairsTable({
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold">Wrapper registry</h2>
-          <p className="text-xs text-[var(--muted)]">
+          <p className="eyebrow mb-1">Registry</p>
+          <h2 className="font-display text-xl font-semibold">Wrapper pairs</h2>
+          <p className="mt-0.5 text-xs text-[var(--muted)]">
             {isLoading
               ? "Reading pairs from the on-chain registry…"
               : `${pairs.length} pairs read live from the registry`}
@@ -59,7 +60,7 @@ export function PairsTable({
 
       {!isLoading && error == null && (
         <>
-          <div className="space-y-2">
+          <div className="stagger space-y-2">
             {filteredValid.map((pair) => (
               <PairRow key={pair.confidential.address} pair={pair} onAction={onAction} />
             ))}

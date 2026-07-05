@@ -61,7 +61,7 @@ export function PairRow({
   const revoked = !pair.isValid;
   return (
     <div
-      className={`grid grid-cols-[1fr_auto_1fr_auto] items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-4 py-3 transition-colors hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--line))] sm:gap-4 ${
+      className={`grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-4 py-3 transition-colors hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--line))] sm:gap-4 lg:grid-cols-[1fr_auto_1fr_auto] ${
         revoked ? "opacity-75" : ""
       }`}
     >
@@ -84,7 +84,7 @@ export function PairRow({
         address={pair.confidential.address}
         confidential
       />
-      <div className="flex flex-wrap items-center justify-end gap-2">
+      <div className="col-span-3 flex flex-wrap items-center justify-end gap-2 border-t border-[var(--line-soft)] pt-2.5 lg:col-span-1 lg:border-t-0 lg:pt-0">
         <button
           onClick={() => onAction(pair, "shield")}
           disabled={revoked}

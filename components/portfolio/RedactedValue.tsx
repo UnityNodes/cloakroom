@@ -26,7 +26,8 @@ export function RedactedValue({
       {Array.from({ length: 6 }).map((_, i) => (
         <span
           key={i}
-          className="inline-block h-3.5 w-2.5 rounded-[2px] bg-[var(--panel-2)] ring-1 ring-inset ring-[var(--line)]"
+          style={{ animationDelay: `${i * 0.12}s` }}
+          className="redact-bar inline-block h-3.5 w-2.5 rounded-[2px] bg-[var(--panel-2)] ring-1 ring-inset ring-[var(--line)]"
         />
       ))}
     </span>
